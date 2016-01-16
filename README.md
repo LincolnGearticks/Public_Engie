@@ -75,7 +75,22 @@ In order to add an icon, upload an image (it will look best if it's square) to G
   9. **OUTREACH_HEADER**: This is the text that will appear at the top of each page of outreach notebook entries. This value doesn't matter if you don't want to have a separate outreach notebook.
 4. If you don't want to have a separate outreach notebook, set the value of `OUTREACH` (the next line after the customizable values) to `null` (i.e. `const OUTREACH = null;`).
 
-###Creating an entry
+###Submitting an entry (for each person at each meeting)
+1. Open your copy of the Google Form (should look like [this](https://docs.google.com/forms/d/1rJhyfmoEW812rAgNctMsqQWX7V1DKm97IA1DZNrWhjQ/viewform)). We recommend that you send the link to your copy of the Form to all the team members and that they bookmark it.
+2. Select your name and input when you came to and left the meeting
+3. If you are not a coach, input the relevant information for the first task you did. All the fields except for the reflection are optional; if you leave out the reflection it won't show up in the entry document.
+4. If you wish to submit more entries, select `Yes` for the last question and add up to three more. Otherwise, select `No` and submit the Form response.
+
+###Submitting an image
+1. Take the image and transfer it to a device that can send e-mails (like a computer or smartphone)
+2. Compose an e-mail to the e-mail address you created in the setup. We recommend that you send out this address to all the team members.
+3. Decide if you want the image to take up an entire page or just a quarter of one. If you want it to take up a full page, add the word `full` to the subject line.
+4. If you have a separate outreach notebook and the image is about outreach, add the word `outreach` to the subject line.
+5. Add the desired image caption to the subject line, making sure not to use the words `full` or `outreach` (see the previous steps). For example, if you wanted the image to take up a full page and go into the outreach notebook with the caption `Image of event`, you would have a subject line of `full outreach Image of event`.
+6. Attach the e-mail, making sure it is sent as an attachment instead of inline. If you are using desktop Gmail, use the `Attach files` button instead of dragging-and-dropping. On mobile Gmail and iOS Mail, it should be sent as an attachment by default. In Inbox, you need to select `Send as an attachment`.
+7. Send the e-mail.
+
+###Creating a notebook entry
 1. Go to Google Drive and open the Script.
 2. Click on `Select function`.
 3. Select the applicable function. The functions that begin with `makeEntry` will e-mail the finished docs and the logs, while the functions that begin with `noEmail` won't (which is useful if you need to remake an entry to correct it). Use a function that ends with `Today` to use entries from the current day, or a function that ends with `Yesterday` to use entries from the previous day. If you need to use entries from `n` days ago, replace `86400000` at the end of the script with `86400000 * n` (e.g. `return new Date(new Date().getTime() - 86400000 * 5);` to run an entry from 5 days ago) and then use one of the `Yesterday` functions, but be sure to change it back for future use.
