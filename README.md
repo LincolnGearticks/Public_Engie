@@ -33,7 +33,7 @@ Our solution to these problems was fairly complicated and went through a number 
 - **Images**: Adding images is as simple as sending the pictures in an e-mail.
 - **Formatting**: The script takes care of ensuring that formatting is consistent.
 - **Distribution**: Every finished document is e-mailed to all the team members, so everyone can read it when they have some free time.
-- **Statistics**: Since all the data ends up in a spreadsheet, it is pretty easy to do calculations with it, for example to find how many hours each team member has spent.
+- **Statistics**: Since all the data ends up in a spreadsheet, it is pretty easy to do calculations with it, for example, to find how many hours each team member has spent.
 - **Separation of tasks and reflections**: All reflections are placed under their task name, so it is easy to see what task they belong to and who accomplished what on each task.
 
 ##Notes About Functionality
@@ -44,6 +44,7 @@ Our solution to these problems was fairly complicated and went through a number 
 - Our team has two different physical Engineering Notebooks; one for outreach tasks and one for everything else. The script respects this difference, and will put entries where the task group is "Outreach" into a separate file. The "Steps to Use" will explain how you can instead insert all the entries and pictures into the same file.
 - When sending an e-mail, you can add the word `outreach` to the subject line to make it go into the outreach notebook, and/or the word `full` to make it take up an entire page instead of just a quarter of one. (See [**Submitting an image**](https://github.com/LincolnGearticks/Public_Engie/blob/master/README.md#submitting-an-image))
   - If there are no outreach notebook entries, outreach pictures will end up in the normal notebook file.
+- Multiple images can be sent in each e-mail. The `full` or `outreach` instructions apply to all of them and they will all have the same caption.
 - The meeting hours are calculated by taking the minimum start hour and the maximum end hour of any person's submission. This may not be a perfect solution if, for example, you meet twice in the same day, but we thought it was not a huge inconvenience.
 - When sending an e-mail with an image, it is often hard to see whether it will be sent "inline" or as an attachment. We tried for some time to be able to extract inline images, but it does not seem possible with the Apps Script interface, so the script currently only accepts attached images. We recommend sending the e-mail from a computer or using the Gmail app on a phone or the Mail app on an iPhone. Feel free to test to see what works for you.
 - Entries without a reflection will be ignored, although the hours will be used.
