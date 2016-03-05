@@ -1,7 +1,7 @@
 //These two functions allow for someone to correct the data and then redo the entries without sending an e-mail
 //Remember to re-star the e-mails with images that you want added
 function noEmailYesterday() { //as if it was run yesterday (to correct for a mistake in yesterday's doc)
-  noEmailToday(yesterdaysDate_()); //pretend that it is yesterday
+  noEmailToday(yesterdaysDate_());
 }
 function noEmailToday(date) { //as if it was run today (to correct for a mistake in today's doc)
   makeEntryToday(true, date);
@@ -405,8 +405,8 @@ function makeEntryToday(avoidEmail, date) { //the main routine
   //refl3(17), key3(18), data4(19), task4(20), group4(21), refl4(22), key4(23), data4(24)
   function collectData() {
     if (!RESPONSES_SHEET) return []; //if using the image portion only, there should be no entries
-    var ss = SpreadsheetApp.openById(RESPONSES_SHEET);
-    var sheet = ss.getSheets()[0]; //data from form
+    const ss = SpreadsheetApp.openById(RESPONSES_SHEET); //open the responses spreadsheet
+    const sheet = ss.getSheets()[0]; //get the sheet containing form data
     var timestamps = sheet.getRange(DATA_START_ROW, DATA_START_COLUMN, sheet.getLastRow() - DATA_START_ROW + 1, 1).getValues(); //get the values of the submission timestamps
     var todaysData = [];
     const LAST_COLUMN = sheet.getLastColumn();
@@ -427,9 +427,9 @@ function makeEntryToday(avoidEmail, date) { //the main routine
   //entries columns: task group, task name, reflections, key learning, data, author
   function entriesFromData(todaysData) {
     const AUTHOR = 1;
-    const ENTRY_OFFSET = 5; //except between 1 and 2 because of the y/n column
+    const ENTRY_OFFSET = 5; //number of columns between the 1st entry and 2nd entry starts
     var ENTRY_STARTS = [4]; //columns containing the task name of an entry (the first column of that entry's data)
-    ENTRY_STARTS.push(ENTRY_STARTS[ENTRY_STARTS.length - 1] + ENTRY_OFFSET + 1);
+    ENTRY_STARTS.push(ENTRY_STARTS[ENTRY_STARTS.length - 1] + ENTRY_OFFSET + 1); //extra column because of the "Submit more entries" question
     ENTRY_STARTS.push(ENTRY_STARTS[ENTRY_STARTS.length - 1] + ENTRY_OFFSET);
     ENTRY_STARTS.push(ENTRY_STARTS[ENTRY_STARTS.length - 1] + ENTRY_OFFSET);
     const TASK_OFFSET = 0; //offsets relative to the start of the entry data
@@ -437,14 +437,15 @@ function makeEntryToday(avoidEmail, date) { //the main routine
     const REFL_OFFSET = 2;
     const KEY_OFFSET = 3;
     const DATA_OFFSET = 4;
+    const MISCELLANEOUS = 'Miscellaneous';
     var entries = [];
     var subEntry;
     for (var i in todaysData) {
       for (subEntry in ENTRY_STARTS) {
         if (todaysData[i][ENTRY_STARTS[subEntry] + REFL_OFFSET]) { //require a task name and a reflection
           entries.push([
-            todaysData[i][ENTRY_STARTS[subEntry] + GROUP_OFFSET],
-            capitalize(todaysData[i][ENTRY_STARTS[subEntry] + TASK_OFFSET].trim()),
+            todaysData[i][ENTRY_STARTS[subEntry] + GROUP_OFFSET] || MISCELLANEOUS, //give a group name if there is none
+            capitalize(todaysData[i][ENTRY_STARTS[subEntry] + TASK_OFFSET].trim()) || MISCELLANEOUS, //give a task name if there is none
             todaysData[i][ENTRY_STARTS[subEntry] + REFL_OFFSET].trim().replace(/\n{2,}/g, '\n'), //by removing double newlines, entries don't look split-up
             todaysData[i][ENTRY_STARTS[subEntry] + KEY_OFFSET].trim(),
             todaysData[i][ENTRY_STARTS[subEntry] + DATA_OFFSET].trim(),
@@ -461,7 +462,7 @@ function makeEntryToday(avoidEmail, date) { //the main routine
   //minTime finds start of first entry, maxTime finds end of last entry
   function minTime(todaysData) {
     const START_TIME_COLUMN = 2;
-    const DEFAULT_DATE = new Date(0);
+    const DEFAULT_DATE = new Date(0); //Jan 1, 1970 (safe to assume this will never be a form entry date)
     var mintime = DEFAULT_DATE; //make sure it is always a valid date
     var startTime;
     for (var i in todaysData) {
@@ -542,5 +543,5 @@ function makeEntryToday(avoidEmail, date) { //the main routine
   }
 }
 function yesterdaysDate_() {
-  return new Date(new Date().getTime() - 86400000);
+  return new Date(new Date().getTime() - 86400000); //86400000 = 1000 * 60 * 60 * 24 = milliseconds in 1 day
 }
