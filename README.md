@@ -1,11 +1,12 @@
+#Engie Notebook Script Guide
 ####FTC 6055 GearTicks
 ####Caleb Sander
 
-#Introduction
+##Introduction
 We are FTC Team 6055, the GearTicks, from Lincoln, Massachusetts. This is our fourth year doing FTC, and all of us were part of FLL teams for a few years before. We won the Inspire Award at the state championship in 2014 and 2015 and the Eastern Super-regional in 2015, going on to the World Championship both years. The code and this document were primarily written by Caleb Sander, the lead programmer of the team. If you need to contact the team, send us an e-mail at ftc6055gearticks@gmail.com.
 We have been working on this script since the end of September 2015 and began using it on October 9. We are continuing to add small features and make small changes to it, but it seems very stable by now. You can check out this [example document](https://drive.google.com/file/d/0BxTVo0Nz6n-tM0UtNmc1SmFVczQ/view?usp=sharing) that it produced.
 
-#The Problems
+##The Problems
 For the last two years, we wrote all our Engineering Notebook (EN) entries by hand and manually inserted all images and drawings. Although we were mostly happy with our EN, we found a few issues inherent to the way we created it:
 - **Participation**: We almost always passed around the EN at the end of each meeting and asked everyone to write a short reflection about what they had done. Because many people were in a rush or didn't want to spend a long time writing, people often wrote very little and the entries didn't accurately reflect what we had done at the meeting.
 - **Reference**: The EN was not in a very usable form. It was a hassle to look back through it, and we often found that we hadn't recorded data that we wished we had.
@@ -16,7 +17,7 @@ For the last two years, we wrote all our Engineering Notebook (EN) entries by ha
 - **Statistics**: Trying to get statistics on hours spent doing various things was very difficult because it required looking back through an incomplete list of the meetings and manually adding numbers.
 - **Separation of tasks and reflections**: We used to create a separate list of tasks for the meetings and reflections of the people who attended, so it was often difficult to clearly see which tasks corresponded to which reflections.
 
-#The Architecture
+##The Architecture
 Our solution to these problems was fairly complicated and went through a number of different stages. A fair amount of our ideas were scrapped along the way, but we are very happy with the final design. It was designed to have about five main components, each using Google Apps:
 
 1. A [Google Form](https://docs.google.com/forms/d/1rJhyfmoEW812rAgNctMsqQWX7V1DKm97IA1DZNrWhjQ/) and [Sheet](https://docs.google.com/spreadsheets/d/1X2EC4T4TPWb_zX6qp-0dvkAsTAfy1fXY0oKVIg70Q3g/) to record each team member's entry after each meeting. These aren't necessary if the team only wants to use the picture portion of the script. It records the time information, team member name, and information for each task he worked on. Up to four tasks can be submitted at once. Each task has a name ("Designing bucket", etc.) and grouping ("Mechanical", "Programming", etc.). For each task, the user must submit a reflection and can choose to submit key learnings or data as well. Having the data dumped automatically into the Sheet is useful because it allows for us to do statistical analysis and fix typos.
@@ -25,33 +26,34 @@ Our solution to these problems was fairly complicated and went through a number 
 4. Two Google Drive folders to store normal EN and outreach EN entries, for archival purposes and to be able to print them.
 5. The same e-mail account is used to send finished entry documents as PDFs to the entire team.
 
-#How We Solved These Problems
+##How We Solved These Problems
 - **Participation**: Everyone can write their entries at the same time and, since most of our team can type faster than they can write, it is easier to write more detailed entries. Team members are also free to write their entries when they get home, so they are not rushing at the end of a meeting.
 - **Reference**: All the entries are stored on Google Drive so it is easy for anyone to look back at them. Since pictures are easier to include, team members are much more likely to record things. Data is also submitted and displayed apart from reflections, so it is easier to find when looking back.
 - **Legibility**: It is far easier to read text on a computer than handwriting.
 - **Images**: Adding images is as simple as sending the pictures in an e-mail.
 - **Formatting**: The script takes care of ensuring that formatting is consistent.
 - **Distribution**: Every finished document is e-mailed to all the team members, so everyone can read it when they have some free time.
-- **Statistics**: Since all the data ends up in a spreadsheet, it is pretty easy to do calculations with it, for example to find how many hours each team member has spent.
+- **Statistics**: Since all the data ends up in a spreadsheet, it is pretty easy to do calculations with it, for example, to find how many hours each team member has spent.
 - **Separation of tasks and reflections**: All reflections are placed under their task name, so it is easy to see what task they belong to and who accomplished what on each task.
 
-#Notes About Functionality
+##Notes About Functionality
 - When you run the script, there are four options. The `makeEntry` options will send an e-mail with the finished document, while the `noEmail` ones will not. We recommend that you use `makeEntry` unless you need to re-run the script to correct an error. The `Today` ones will use the entries from the current day, while the `Yesterday` ones will use the entries from the previous day.
 - When the script is run, it will put in all the entries submitted on the specified day and the pictures from any starred e-mail thread. This means a couple of things:
   - If someone submits an entry on any following day, you will need to fix it in the "Timestamp" column of the spreadsheet.
   - If you need to re-run an entry or want to not include some images, you will need to star or unstar the e-mails containing them.
 - Our team has two different physical Engineering Notebooks; one for outreach tasks and one for everything else. The script respects this difference, and will put entries where the task group is "Outreach" into a separate file. The "Steps to Use" will explain how you can instead insert all the entries and pictures into the same file.
-- When sending an e-mail, you can add the word `outreach` to the subject line to make it go into the outreach notebook, and/or the word `full` to make it take up an entire page instead of just a quarter of one. For example, if you wanted a picture to take up a full page in the outreach notebook with the caption `Image from event`, you could use `Full Outreach Image from event` as your subject.
+- When sending an e-mail, you can add the word `outreach` to the subject line to make it go into the outreach notebook, and/or the word `full` to make it take up an entire page instead of just a quarter of one. (See [**Submitting an image**](https://github.com/LincolnGearticks/Public_Engie/blob/master/README.md#submitting-an-image))
   - If there are no outreach notebook entries, outreach pictures will end up in the normal notebook file.
+- Multiple images can be sent in each e-mail. The `full` or `outreach` instructions apply to all of them and they will all have the same caption.
 - The meeting hours are calculated by taking the minimum start hour and the maximum end hour of any person's submission. This may not be a perfect solution if, for example, you meet twice in the same day, but we thought it was not a huge inconvenience.
 - When sending an e-mail with an image, it is often hard to see whether it will be sent "inline" or as an attachment. We tried for some time to be able to extract inline images, but it does not seem possible with the Apps Script interface, so the script currently only accepts attached images. We recommend sending the e-mail from a computer or using the Gmail app on a phone or the Mail app on an iPhone. Feel free to test to see what works for you.
-- Entries without a task name or reflection will not be used.
+- Entries without a reflection will be ignored, although the hours will be used.
 - Tasks with the same name are grouped together in the output document, so it is a good idea to either have people who worked on the same task make sure to call it the same thing or to have the person running the script edit the responses to give them the same name.
 - There will be a list of each team member's hours on the first page of the regular and outreach notebook entries.
 - Pictures (both full-page and quarter-sized) are resized to fit inside portrait-oriented areas, so landscape images will not use the space as efficiently:
 ![Landscape vs. portrait images](http://i.imgur.com/u60I9BD.png)
 
-#Steps to Use
+##Steps to Use
 ###Setting up your own copy of the script (only has to be done once)
 1. Make a [new Google Account](https://accounts.google.com/SignUp?service=mail). This account will be used to host all of the Google App services listed under "Architecture".
 2. If you would like to use the entry portion of the script, send us an e-mail (see the address in the "Introduction" section) with the e-mail address you made so we can make you a copy of the entry form and responses spreadsheet. You can't complete the setup until we send this to you, but there are some steps you can do without having the form yet. If you only want to use the pictures part, then you can continue through all the rest of the steps
