@@ -81,15 +81,18 @@ function makeEntryToday(avoidEmail, date) { //the main routine
     TIME_BLOCK_STYLE[DocumentApp.Attribute.SPACING_BEFORE] = 0;
     TIME_BLOCK_STYLE[DocumentApp.Attribute.SPACING_AFTER] = 0;
     TIME_BLOCK_STYLE[DocumentApp.Attribute.LINE_SPACING] = 1;
-    const PARA_STYLE = {};
+    const PARA_STYLE = {}; //for reflections and data
     PARA_STYLE[DocumentApp.Attribute.BOLD] = false;
     PARA_STYLE[DocumentApp.Attribute.FONT_SIZE] = 10;
     PARA_STYLE[DocumentApp.Attribute.SPACING_AFTER] = 0;
     PARA_STYLE[DocumentApp.Attribute.SPACING_BEFORE] = 0;
     PARA_STYLE[DocumentApp.Attribute.LINE_SPACING] = 1;
     PARA_STYLE[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.LEFT;
-    const SMALLEST_SIZE = {};
+    PARA_STYLE[DocumentApp.Attribute.FONT_FAMILY] = 'Arial';
+    const SMALLEST_SIZE = {}; //for last line of header since it can't be removed
     SMALLEST_SIZE[DocumentApp.Attribute.FONT_SIZE] = 6;
+    const MONOSPACED = {}; //for monospaced sections of entries
+    MONOSPACED[DocumentApp.Attribute.FONT_FAMILY] = 'Courier New';
 
     //Collect the data from the form and process it
     const TODAY = date || new Date(); //will default to the current day, but another can be passed
@@ -193,7 +196,15 @@ function makeEntryToday(avoidEmail, date) { //the main routine
         for (k in entriesForTask) {
           var entryText = entriesForTask[k][REFL] + ' –' + entriesForTask[k][AUTHOR_ENTRY];
           if (k != entriesForTask.length - 1) entryText += '\n'; //separate entries with blank lines
-          taskTable.appendTableRow().appendTableCell(entryText).setAttributes(PARA_STYLE).setPaddingBottom(0).setPaddingTop(0);
+          entryText = entryText.split('`'); //separate into alternated monospaced and normal sections
+          var entryTableCell = taskTable.appendTableRow().appendTableCell().setPaddingBottom(0).setPaddingTop(0);
+          var entryParagraph = entryTableCell.appendParagraph(entryText[0]).setAttributes(PARA_STYLE);
+          for (var i = 1; i < entryText.length; i++) { //iterate through monospaced/normal sections
+            var textSection = entryParagraph.appendText(entryText[i]); //add the text
+            if (i % 2) textSection.setAttributes(MONOSPACED); //if it should be monospaced, style it that way
+            else textSection.setAttributes(PARA_STYLE); //otherwise, style it normally
+          }
+          entryTableCell.removeChild(entryTableCell.getChild(0)); //removed extra paragraph created in table cell
         }
         dataRow = taskTable.appendTableRow();
         dataRow.appendTableCell(DATA_HEADING).setAttributes(SMALL_HEADER_STYLE).setPaddingBottom(0).setPaddingTop(0); //insert 'Data' heading
