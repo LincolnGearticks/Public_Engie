@@ -196,13 +196,21 @@ function makeEntryToday(avoidEmail, date) { //the main routine
         for (k in entriesForTask) {
           var entryText = entriesForTask[k][REFL] + ' –' + entriesForTask[k][AUTHOR_ENTRY];
           if (k != entriesForTask.length - 1) entryText += '\n'; //separate entries with blank lines
-          entryText = entryText.split('`'); //separate into alternated monospaced and normal sections
-          var entryTableCell = taskTable.appendTableRow().appendTableCell().setPaddingBottom(0).setPaddingTop(0);
-          var entryParagraph = entryTableCell.appendParagraph(entryText[0]).setAttributes(PARA_STYLE);
-          for (var i = 1; i < entryText.length; i++) { //iterate through monospaced/normal sections
-            var textSection = entryParagraph.appendText(entryText[i]); //add the text
-            if (i % 2) textSection.setAttributes(MONOSPACED); //if it should be monospaced, style it that way
-            else textSection.setAttributes(PARA_STYLE); //otherwise, style it normally
+          var splitEntryText = entryText.split('`'); //separate into alternated monospaced and normal sections
+          if (splitEntryText.length % 2) { //odd number of segments -> even number of '`' characters -> correct usage
+            var entryTableCell = taskTable.appendTableRow().appendTableCell().setPaddingBottom(0).setPaddingTop(0);
+            var entryParagraph = entryTableCell.appendParagraph('');
+            entryParagraph.setText(splitEntryText[0]); //using this in appendParagraph() causes the program to mysteriously fail
+            entryParagraph.setAttributes(PARA_STYLE);
+            for (var i = 1; i < splitEntryText.length; i++) { //iterate through monospaced/normal sections
+              var textSection = entryParagraph.appendText(splitEntryText[i]); //add the text
+              if (i % 2) textSection.setAttributes(MONOSPACED); //if it should be monospaced, style it that way
+              else textSection.setAttributes(PARA_STYLE); //otherwise, style it normally
+            }
+          }
+          else { //even number of segments -> odd nuber of '`' characters -> monospacing probably wasn't intended
+            var entryTableCell = taskTable.appendTableRow().appendTableCell().setPaddingBottom(0).setPaddingTop(0);
+            entryTableCell.appendParagraph(entryText).setAttributes(PARA_STYLE);
           }
           entryTableCell.removeChild(entryTableCell.getChild(0)); //removed extra paragraph created in table cell
         }
