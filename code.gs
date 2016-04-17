@@ -255,7 +255,7 @@ function makeEntryToday(avoidEmail, date) { //the main routine
             //We are also trying to use the subject line as a place to put captions, so remove the special words
             subject = message.getSubject();
             messageData = [];
-            messageData[CAPTION] = capitalize(subject.replace(FULL_SEARCH, '').replace(OUTREACH_SEARCH, '').trim().replace(/  /g, ' '));
+            messageData[CAPTION] = capitalize(subject.replace(FULL_SEARCH, ' ').replace(OUTREACH_SEARCH, '').trim().replace(/  /g, ' ')); //first replacement adds back a space so that the second replacement can still match full words
             log += 'Got image in e-mail (caption: ' + messageData[CAPTION] + ')\n';
             messageData[ATTACHMENT] = attachment;
             subject = subject.toLowerCase(); //no need to keep track of cases when looking for control words
