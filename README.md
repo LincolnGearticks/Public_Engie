@@ -1,12 +1,12 @@
-#Engie Notebook Script Guide
-####FTC 6055 GearTicks
-####Caleb Sander
+# Engie Notebook Script Guide
+#### FTC 6055 GearTicks
+#### Caleb Sander
 
-##Introduction
+## Introduction
 We are FTC Team 6055, the GearTicks, from Lincoln, Massachusetts. This is our fourth year doing FTC, and all of us were part of FLL teams for a few years before. We won the Inspire Award at the state championship in 2014 and 2015 and the Eastern Super-regional in 2015, going on to the World Championship both years. The code and this document were primarily written by Caleb Sander, the lead programmer of the team. If you need to contact the team, send us an e-mail at ftc6055gearticks@gmail.com.
 We have been working on this script since the end of September 2015 and began using it on October 9. We are continuing to add small features and make small changes to it, but it seems very stable by now. You can check out this [example document](https://drive.google.com/file/d/0BxTVo0Nz6n-tM0UtNmc1SmFVczQ/view?usp=sharing) that it produced.
 
-##The Problems
+## The Problems
 For the last two years, we wrote all our Engineering Notebook (EN) entries by hand and manually inserted all images and drawings. Although we were mostly happy with our EN, we found a few issues inherent to the way we created it:
 - **Participation**: We almost always passed around the EN at the end of each meeting and asked everyone to write a short reflection about what they had done. Because many people were in a rush or didn't want to spend a long time writing, people often wrote very little and the entries didn't accurately reflect what we had done at the meeting.
 - **Reference**: The EN was not in a very usable form. It was a hassle to look back through it, and we often found that we hadn't recorded data that we wished we had.
@@ -17,7 +17,7 @@ For the last two years, we wrote all our Engineering Notebook (EN) entries by ha
 - **Statistics**: Trying to get statistics on hours spent doing various things was very difficult because it required looking back through an incomplete list of the meetings and manually adding numbers.
 - **Separation of tasks and reflections**: We used to create a separate list of tasks for the meetings and reflections of the people who attended, so it was often difficult to clearly see which tasks corresponded to which reflections.
 
-##The Architecture
+## The Architecture
 Our solution to these problems was fairly complicated and went through a number of different stages. A fair amount of our ideas were scrapped along the way, but we are very happy with the final design. It was designed to have about five main components, each using Google Apps:
 
 1. A [Google Form](https://docs.google.com/forms/d/1rJhyfmoEW812rAgNctMsqQWX7V1DKm97IA1DZNrWhjQ/) and [Sheet](https://docs.google.com/spreadsheets/d/1X2EC4T4TPWb_zX6qp-0dvkAsTAfy1fXY0oKVIg70Q3g/) to record each team member's entry after each meeting. These aren't necessary if the team only wants to use the picture portion of the script. It records the time information, team member name, and information for each task he worked on. Up to four tasks can be submitted at once. Each task has a name ("Designing bucket", etc.) and grouping ("Mechanical", "Programming", etc.). For each task, the user must submit a reflection and can choose to submit key learnings or data as well. Having the data dumped automatically into the Sheet is useful because it allows for us to do statistical analysis and fix typos.
@@ -26,7 +26,7 @@ Our solution to these problems was fairly complicated and went through a number 
 4. Two Google Drive folders to store normal EN and outreach EN entries, for archival purposes and to be able to print them.
 5. The same e-mail account is used to send finished entry documents as PDFs to the entire team.
 
-##How We Solved These Problems
+## How We Solved These Problems
 - **Participation**: Everyone can write their entries at the same time and, since most of our team can type faster than they can write, it is easier to write more detailed entries. Team members are also free to write their entries when they get home, so they are not rushing at the end of a meeting.
 - **Reference**: All the entries are stored on Google Drive so it is easy for anyone to look back at them. Since pictures are easier to include, team members are much more likely to record things. Data is also submitted and displayed apart from reflections, so it is easier to find when looking back.
 - **Legibility**: It is far easier to read text on a computer than handwriting.
@@ -36,7 +36,7 @@ Our solution to these problems was fairly complicated and went through a number 
 - **Statistics**: Since all the data ends up in a spreadsheet, it is pretty easy to do calculations with it, for example, to find how many hours each team member has spent.
 - **Separation of tasks and reflections**: All reflections are placed under their task name, so it is easy to see what task they belong to and who accomplished what on each task.
 
-##Notes About Functionality
+## Notes About Functionality
 - When you run the script, there are four options. The `makeEntry` options will send an e-mail with the finished document, while the `noEmail` ones will not. We recommend that you use `makeEntry` unless you need to re-run the script to correct an error. The `Today` ones will use the entries from the current day, while the `Yesterday` ones will use the entries from the previous day.
 - When the script is run, it will put in all the entries submitted on the specified day and the pictures from any starred e-mail thread. This means a couple of things:
   - If someone submits an entry on any following day, you will need to fix it in the "Timestamp" column of the spreadsheet.
@@ -53,8 +53,8 @@ Our solution to these problems was fairly complicated and went through a number 
 - Pictures (both full-page and quarter-sized) are resized to fit inside portrait-oriented areas, so landscape images will not use the space as efficiently:
 ![Landscape vs. portrait images](http://i.imgur.com/u60I9BD.png)
 
-##Steps to Use
-###Setting up your own copy of the script (only has to be done once)
+## Steps to Use
+### Setting up your own copy of the script (only has to be done once)
 1. Make a [new Google Account](https://accounts.google.com/SignUp?service=mail). This account will be used to host all of the Google App services listed under "Architecture".
 2. If you would like to use the entry portion of the script, send us an e-mail (see the address in the "Introduction" section) with the e-mail address you made so we can make you a copy of the entry form and responses spreadsheet. You can't complete the setup until we send this to you, but there are some steps you can do without having the form yet. If you only want to use the pictures part, then you can continue through all the rest of the steps
 3. Go to [Gmail](https://mail.google.com/) and click on the gear icon and then `Settings`. Then click on `Filters and Blocked Addresses` and `Create a new filter`. Check the `Has attachment` box and click `Create filter with this search`. Check the `Star it` box and the click on `Create filter`.
@@ -77,13 +77,13 @@ In order to add an icon, upload an image (it will look best if it's square) to G
   9. **OUTREACH_HEADER**: This is the text that will appear at the top of each page of outreach notebook entries. This value doesn't matter if you don't want to have a separate outreach notebook.
 4. If you don't want to have a separate outreach notebook, set the value of `OUTREACH` (the next line after the customizable values) to `null` (i.e. `const OUTREACH = null;`).
 
-###Submitting an entry (for each person at each meeting)
+### Submitting an entry (for each person at each meeting)
 1. Open your copy of the Google Form (should look like [this](https://docs.google.com/forms/d/1rJhyfmoEW812rAgNctMsqQWX7V1DKm97IA1DZNrWhjQ/viewform)). We recommend that you send the link to your copy of the Form to all the team members and that they bookmark it.
 2. Select your name and input when you came to and left the meeting
 3. If you are not a coach, input the relevant information for the first task you did. All the fields except for the reflection are optional; if you leave out the reflection it won't show up in the entry document.
 4. If you wish to submit more entries, select `Yes` for the last question and add up to three more. Otherwise, select `No` and submit the Form response.
 
-###Submitting an image
+### Submitting an image
 1. Take the image and transfer it to a device that can send e-mails (like a computer or smartphone)
 2. Compose an e-mail to the e-mail address you created in the setup. We recommend that you send out this address to all the team members.
 3. Decide if you want the image to take up an entire page or just a quarter of one. If you want it to take up a full page, add the word `full` to the subject line.
@@ -92,7 +92,7 @@ In order to add an icon, upload an image (it will look best if it's square) to G
 6. Attach the e-mail, making sure it is sent as an attachment instead of inline. If you are using desktop Gmail, use the `Attach files` button instead of dragging-and-dropping. On mobile Gmail and iOS Mail, it should be sent as an attachment by default. In Inbox, you need to select `Send as an attachment`.
 7. Send the e-mail.
 
-###Creating a notebook entry
+### Creating a notebook entry
 1. Go to Google Drive and open the Script.
 2. Click on `Select function`.
 3. Select the applicable function. The functions that begin with `makeEntry` will e-mail the finished docs and the logs, while the functions that begin with `noEmail` won't (which is useful if you need to remake an entry to correct it). Use a function that ends with `Today` to use entries from the current day, or a function that ends with `Yesterday` to use entries from the previous day. If you need to use entries from `n` days ago, replace `86400000` at the end of the script with `86400000 * n` (e.g. `return new Date(new Date().getTime() - 86400000 * 5);` to run an entry from 5 days ago) and then use one of the `Yesterday` functions, but be sure to change it back for future use.
